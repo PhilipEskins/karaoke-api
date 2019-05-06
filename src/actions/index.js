@@ -36,7 +36,8 @@ export function fetchLyrics(title, artist, musicMatchId, localSongId, dispatch) 
       dispatch(receiveSong(title, artist, localSongId, songArray));
       dispatch(changeSong(localSongId));
     } else {
-      console.log('We couldn\'t locate lyrics for this song')
+      console.log('We couldn\'t locate lyrics for this song');
+      this.state.songId[localSongId].splice
     }
   });
 }
@@ -48,6 +49,10 @@ export const receiveSong = (title, artist, songId, songArray) => ({
   artist,
   songArray,
   receivedAt: Date.now()
+});
+
+export const deleteSong = () => ({
+  type: types.DELETE_SONG,
 });
 
 export const nextLyric = (currentSongId) => ({

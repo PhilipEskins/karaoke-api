@@ -5,18 +5,20 @@ import { restartSong, changeSong } from './../actions';
 
 const SongList = ({ dispatch, songList }) => {
   let action;
+  let display = null;
   return (
     <div>
       <em>Or select from our list:</em>
       {Object.keys(songList).map(songId => {
         let song = songList[songId];
+        console.log(song);
+        if (!song.artist) {
+          delete songList[songId];
+
+        }
         return <li key = {songId} onClick = {() => {
           if (song.arrayPosition > 0){
             dispatch(restartSong(songId));
-          }
-          action = {
-            type: 'CHANGE_SONG',
-            newSelectedSongId: songId
           };
           dispatch(changeSong(songId));
         }}>
