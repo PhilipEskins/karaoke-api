@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { restartSong, changeSong } from './../actions';
 
 const SongList = ({ dispatch, songList }) => {
-  let action;
   let display = null;
-  
+
   return (
     <div>
       <em>Or select from our list:</em>
@@ -16,12 +15,12 @@ const SongList = ({ dispatch, songList }) => {
           delete songList[songId];
           display = 'Unable to locate song';
         } else {
-          display = song.title + ' by ' + song.artist
-        };
+          display = song.title + ' by ' + song.artist;
+        }
         return <li key = {songId} onClick = {() => {
           if (song.arrayPosition > 0){
             dispatch(restartSong(songId));
-          };
+          }
           dispatch(changeSong(songId));
         }}>
           {display}</li>;
