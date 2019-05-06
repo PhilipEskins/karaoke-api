@@ -3,6 +3,7 @@ import songChangeReducer from './../../src/reducers/songChangeReducer';
 import lyricChangeReducer from './../../src/reducers/lyricChangeReducer';
 import rootReducer from './../../src/reducers/';
 import { createStore } from 'redux';
+import * as actions from './../../src/actions';
 
 describe('Karaoke App', () => {
   const { initialState, types } = constants;
@@ -19,6 +20,16 @@ describe('Karaoke App', () => {
 
     it('Should restart song', () => {
       expect(lyricChangeReducer(initialState.songsById, { type: 'RESTART_SONG', currentSongId: 1 })[1].arrayPosition).toEqual(0);
+    });
+
+    it('Should update state when API lyrics are being requested.', () => {
+      const action = actions.requestSong('crocodile rock');
+      const newStateEntry = {
+        isFetching: true,
+        title: action.title,
+        songId: action.songId,
+      };
+      expect(lyricChangeReducer(initialState.songsById, action)[action.songId]).toEqual(newStateEntry);
     });
   });
 
@@ -42,5 +53,18 @@ describe('Karaoke App', () => {
       expect(store.getState().songsById).toEqual(lyricChangeReducer(undefined, { type: null }));
     });
   });
+
+  it('Should update currently-displayed lyric of song', () => {
+    expect(lyricChangeReducer(initialState.songsById, actions.nextLyric(2))[2].arrayPosition).toEqual(initialState.songsById[2].arrayPosition + 1);
+  });
+
+  it('Should restart song', () => {
+    expect(lyricChangeReducer(initialState.songsById, actions.restartSong(1))[1].arrayPosition).toEqual(0);
+  });
+
+  it('Should change selectedSong.', () => {
+  expect(songChangeReducer(initialState.currentSongId, actions.changeSong(2))).toEqual(2);
+});
+
 
 });
