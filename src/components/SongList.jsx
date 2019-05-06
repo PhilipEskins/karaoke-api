@@ -6,23 +6,25 @@ import { restartSong, changeSong } from './../actions';
 const SongList = ({ dispatch, songList }) => {
   let action;
   let display = null;
+  
   return (
     <div>
       <em>Or select from our list:</em>
       {Object.keys(songList).map(songId => {
         let song = songList[songId];
-        console.log(song);
         if (!song.artist) {
           delete songList[songId];
-
-        }
+          display = 'Unable to locate song';
+        } else {
+          display = song.title + ' by ' + song.artist
+        };
         return <li key = {songId} onClick = {() => {
           if (song.arrayPosition > 0){
             dispatch(restartSong(songId));
           };
           dispatch(changeSong(songId));
         }}>
-          {song.title} by {song.artist}</li>;
+          {display}</li>;
       })}
     </div>
   );
