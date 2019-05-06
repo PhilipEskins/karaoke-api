@@ -1,7 +1,7 @@
 import React from 'react';
 import { fetchSongId } from './../actions';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 function SongSearch({dispatch}){
   let input;

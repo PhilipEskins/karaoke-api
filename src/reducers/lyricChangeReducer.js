@@ -23,17 +23,30 @@ const lyricChangeReducer = (state = initialState.songsById, action) => {
     });
     return newSongsByIdStateSlice;
 
-    case types.REQUEST_SONG:
-        newSongsByIdEntry = {
-          isFetching: true,
-          title: action.title,
-          songId: action.songId
-        };
-        newSongsByIdStateSlice = Object.assign({}, state, {
-          [action.songId]: newSongsByIdEntry
-        });
-        return newSongsByIdStateSlice;
-
+  case types.REQUEST_SONG:
+    newSongsByIdEntry = {
+      isFetching: true,
+      title: action.title,
+      songId: action.songId
+    };
+    newSongsByIdStateSlice = Object.assign({}, state, {
+      [action.songId]: newSongsByIdEntry
+    });
+    return newSongsByIdStateSlice;
+  case types.RECEIVE_SONG:
+    newSongsByIdEntry = Object.assign({}, state[action.songId], {
+      isFetching: false,
+      receivedAt: action.receivedAt,
+      title: action.title,
+      artist: action.artist,
+      songArray: action.songArray,
+      arrayPosition: 0,
+      songId: action.songId,
+    })
+    newSongsByIdStateSlice = Object.assign({}, state, {
+      [action.songId]: newSongsByIdEntry
+    })
+    return newSongsByIdStateSlice;
   default:
     return state;
   }
